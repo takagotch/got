@@ -3,12 +3,75 @@
 https://github.com/sindresorhus/got
 
 ```js
+const got = require('got');
+(async () => {
+  try {
+    const respone = await got('https://sindresorhus.com');
+    console.log(response.body);
+  } catch(error){
+    console.log(error.response.body);
+  }
+})();
 
+const fs = require('fs');
+const got = require('got');
+got.stream('https://sindresorhus.com').pipe(fs.createWriteStream('index.html'));
+fs.createReadStream('index.html').pipe(got.stream.post('https://sindresorhus.com'));
 
+await got('hello', {baseUrl: 'http://examplec.om/v1'});
+await got('/hello', {baseUrl: 'https://example.com/v1/'});
+await got('/hello', {baseUrl: 'https://example.com/v1'});
 
+const {body} = await got(url).json();
 
+const got = require('got');
+const searchParams = new URLSearchParams([['key', 'a'], ['key', 'b']]);
+got('https://example.com', {searchParams});
+console.log(searchParams.toString());
 
+const got = require('got');
+const queryString = require('query-string');
+const searchParams = queryString.stringify({key: ['a', 'b']}, {arrayFormat: 'bracket'});
+got('http://example.com', {searchParams});
+console.log(searchParams);
 
+const got = require('got');
+const HttpAgent = require('agentkeeplive');
+const {HttpAgent} = HttpAgent;
+got('https://sindresorhus.com', {
+  agent: {
+    http: new HttpAgent(),
+    https: HttpsAgent()
+  }
+});
+
+const got = require('got');
+got('https://example.com', {
+  hooks: {
+    beforeRedirect: [
+      options => {
+        if(options.hostname === 'deadsite'){
+          options.hostname = 'fallbackSite';
+        }
+      }
+    ]
+  }
+});
+
+const got = require('got');
+got('https://example.com', {
+  hooks: {
+   beforeRetry: [
+     beforeRetry: [
+       (options, error, retryCount) => {
+         if(error.statusCode === 413){
+           options.body = getNewBody();
+         }
+       }
+     ]
+   ]
+  }
+});
 
 const got = require('got');
 const instance = got.extend({
@@ -262,6 +325,8 @@ const h2got = got.extend({request});
 ```
 
 ```
+npm install got
+
 npm install @keyv/redis
 ```
 
